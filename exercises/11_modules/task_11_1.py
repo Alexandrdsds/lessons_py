@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint
 """
 Задание 11.1
 
@@ -34,6 +35,14 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
 
+def ignore(list_line, ignore):
+    result = False
+    for line in list_line:
+        if line in ignore:
+            result = True
+    return result
+
+words = ["Capability Codes","Device ID"]
 
 def parse_cdp_neighbors(command_output):
     """
@@ -43,8 +52,29 @@ def parse_cdp_neighbors(command_output):
     и с файлами и с выводом с оборудования.
     Плюс учимся работать с таким выводом.
     """
-
-
+    result_dict = {}
+    # with open(command_output) as f:
+    #     for command in f:
+    #         if ">" in command:
+    #             device = command.split(">")[0]
+    #         elif command and not(len(command.split()) < 8 or ignore(words,command) or command.startswith(" ")):
+    #             id,t_local,n_local,*_,t_dest,n_dest = command.split()
+    #             local_intf = t_local+n_local
+    #             dest_intf = t_dest+n_dest
+    #             result_dict[(device,local_intf)] = (id,dest_intf)
+    #     return result_dict
+        
+    for command in command_output.split('\n'):
+        if ">" in command:
+            device = command.split(">")[0]
+        elif command and not(len(command.split()) < 8 or ignore(words,command) or command.startswith(" ")):
+            id,t_local,n_local,*_,t_dest,n_dest = command.split()
+            local_intf = t_local+n_local
+            dest_intf = t_dest+n_dest
+            result_dict[(device,local_intf)] = (id,dest_intf)
+    return result_dict
+            
 if __name__ == "__main__":
     with open("sh_cdp_n_sw1.txt") as f:
         print(parse_cdp_neighbors(f.read()))
+    # pprint(parse_cdp_neighbors("sh_cdp_n_sw1.txt"))

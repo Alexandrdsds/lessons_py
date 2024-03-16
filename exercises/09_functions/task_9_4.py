@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint
 """
 Задание 9.4
+
 
 Создать функцию convert_config_to_dict, которая обрабатывает конфигурационный
 файл коммутатора и возвращает словарь:
@@ -64,3 +66,25 @@ def ignore_command(command, ignore):
         if word in command:
             ignore_status = True
     return ignore_status
+
+def convert_config_to_dict(config_filename):
+    result_dict = {}
+    with open(config_filename, 'r') as f:
+        for line in f:
+            line = line.rstrip()
+            if line and not (line.startswith("!") or ignore_command(line,ignore)):
+                if not line.startswith(" "):
+                    section = line
+                    result_dict[section] = []
+                else:
+                    result_dict[section].append(line.strip())
+                # if line[0].isalnum():
+                #     section = line
+                #     result_dict[section] = []
+                # else:
+                #     result_dict[section].append(line.strip())
+    return result_dict
+                    
+        
+convert_config_to_dict('config_sw1.txt')
+

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint
 """
 Задание 9.2a
 
@@ -47,3 +48,17 @@ trunk_config = {
     "FastEthernet0/2": [11, 30],
     "FastEthernet0/4": [17],
 }
+
+def generate_trunk_config(intf_vlan_mapping, trunk_template):
+    dict_result = {}
+    for interface, vlan in intf_vlan_mapping.items():
+        list_result = []
+        for configure in trunk_template:
+            if configure == 'switchport trunk allowed vlan':
+                list_result.append(f'{configure} {",".join([str(v) for v in vlan])}')
+            else:
+                list_result.append(configure)
+        dict_result[interface] = list_result
+    return dict_result
+    
+generate_trunk_config(trunk_config,trunk_mode_template)

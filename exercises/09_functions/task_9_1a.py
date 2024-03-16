@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
+from pprint import pprint
 """
 Задание 9.1a
 
@@ -43,3 +44,30 @@ port_security_template = [
 ]
 
 access_config = {"FastEthernet0/12": 10, "FastEthernet0/14": 11, "FastEthernet0/16": 17}
+
+def generate_access_config(intf_vlan_mapping, access_template, psecurity = None):
+    # result_list = []
+    # for interface, vlan in intf_vlan_mapping.items():
+    #     intf = 'interface '+interface
+    #     result_list.append(intf)
+    #     access_template[1] = f'switchport access vlan {vlan}'
+    #     result_list.extend(access_template)
+    #     if psecurity != None:
+    #         for ps in psecurity:
+    #             result_list.append(ps)
+    # return result_list
+        
+    result_list = []
+    for interface, vlan in intf_vlan_mapping.items():
+        result_list.append('interface '+interface)
+        for access in access_template:
+            if access == "switchport access vlan":
+                result_list.append(f'{access} {vlan}')
+            else:
+                result_list.append(access)
+        if psecurity:
+            result_list.extend(psecurity)
+    return result_list
+        
+pprint(generate_access_config(access_config, access_mode_template))
+pprint(generate_access_config(access_config,access_mode_template,port_security_template))

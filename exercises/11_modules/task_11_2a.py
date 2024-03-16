@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint
+
+from task_11_2 import create_network_map
+from draw_network_graph import draw_topology
 """
 Задание 11.2a
 
@@ -80,3 +84,23 @@ infiles = [
     "sh_cdp_n_r2.txt",
     "sh_cdp_n_r3.txt",
 ]
+
+def unique_network_map(topology_dict):
+    result_dict = {}
+    # for neighbor_1,neighbor_2 in topology_dict.items():
+    #     neighbor_1, neighbor_2 = sorted([neighbor_1,neighbor_2])
+    #     result_dict[neighbor_1] = neighbor_2
+    # pprint(result_dict)
+    for neighbor_1,neighbor_2 in topology_dict.items():
+        if not result_dict.get(neighbor_2) == neighbor_1:
+            result_dict[neighbor_1] = neighbor_2
+    return result_dict
+            
+topology = create_network_map(infiles)
+draw_topology(unique_network_map(topology))
+
+
+if __name__ == "main":
+    pprint(unique_network_map(topology))
+
+

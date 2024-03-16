@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint
 """
 Задание 9.3a
 
@@ -25,3 +26,21 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+def get_int_vlan_map(config_filename):
+    acces_port = {}
+    trunk_port = {}
+    with open(config_filename,'r') as f:
+        for line in f:
+            if line.startswith("interface FastEthernet"):
+                interface = line.split()[1]
+                acces_port[interface] = 1
+            elif line.startswith(" switchport access vlan"):
+                access_vlan = line.split()[3]
+                acces_port[interface] = int(access_vlan)
+            elif line.startswith(" switchport trunk allowed vlan"):
+                vlans = [int(v) for v in line.split()[4].split(',')]
+                trunk_port[interface] = vlans
+                del acces_port[interface]
+    return acces_port, trunk_port
+                
+pprint(get_int_vlan_map('config_sw2.txt'))

@@ -81,4 +81,18 @@ trunk = {
 #             print(f" {command} {vlan}")
 #         else:
 #             print(f" {command}")
+for intf, vlan in trunk.items():
+    print("interface FastEthernet" + intf)
+    for command in trunk_template:
+        if command.endswith("trunk allowed vlan"):
+            vlan_list = vlan[1:]
+            if trunk[intf][0] == "add":
+                print(f" {command} add {','.join(vlan_list)}")
+            elif trunk[intf][0] == "del":
+                print(f" {command} remove {','.join(vlan_list)}")
+            else:
+                print(f" {command} {','.join(vlan_list)}")
+        else:
+            print(f" {command}")
+            
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint
 """
 Задание 9.1
 
@@ -75,3 +76,13 @@ def generate_access_config(intf_vlan_mapping, access_template):
 
     Возвращает список всех портов в режиме access с конфигурацией на основе шаблона
     """
+    result_list = []
+    for interface, vlan in intf_vlan_mapping.items():
+        intf = 'interface '+interface
+        result_list.append(intf)
+        access_template[1] = f'switchport access vlan {vlan}'
+        result_list.extend(access_template)
+    return result_list
+        
+
+generate_access_config(access_config,access_mode_template)

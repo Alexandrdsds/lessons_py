@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pprint import pprint
 """
 Задание 7.3a
 
@@ -40,3 +41,13 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+list_mac = []
+with open('CAM_table.txt') as f:
+    for line in f:
+        lines = line.split()
+        if lines and lines[0].isdigit():
+            vlan, mac, _, interface = lines
+            list_mac.append([int(vlan),mac,interface])
+            
+for vlan,mac,interface in sorted(list_mac):
+    print(f"{vlan:<9}{mac:20}{interface}")

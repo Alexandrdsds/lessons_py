@@ -49,3 +49,25 @@ bin_ip = "00001010000000010000000111000011"
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+ip_mask = input("Введите адрес: ")
+ip, mask = ip_mask.split('/')
+oct = ip.split('.')
+oct1, oct2, oct3, oct4 = [int(oct[0]),int(oct[1]),int(oct[2]),int(oct[3])]
+bin_ip = "{0:08b}{1:08b}{2:08b}{3:08b}".format(oct1,oct2,oct3,oct4)
+network = bin_ip[:int(mask)] + "0" * (32 - int(mask))
+ip1,ip2,ip3,ip4 = [int(network[0:8],2),int(network[8:16],2),int(network[16:24],2),int(network[24:32],2)]
+bin_m = "1" * int(mask) + "0" * (32-int(mask))
+m1,m2,m3,m4 = [int(bin_m[0:8],2),int(bin_m[8:16],2),int(bin_m[16:24],2),int(bin_m[24:32],2)]
+result_network = """
+Network:
+{0:<8}  {1:<8}  {2:<8}  {3:<8}
+{0:08b}  {1:08b}  {2:08b}  {3:08b}
+""".format(ip1,ip2,ip3,ip4)
+result_mask = """
+Mask:
+/{0}
+{1:<8}  {2:<8}  {3:<8}  {4:<8}
+{1:08b}  {2:08b}  {3:08b}  {4:08b}
+""".format(mask,m1,m2,m3,m4)
+
+print(f"{result_network.strip()}\n{result_mask}")
